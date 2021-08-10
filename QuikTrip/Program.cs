@@ -13,19 +13,20 @@ namespace QuikTrip
                 Console.WriteLine(@"
 QuikTrip Management Systems
 
-1. Enter District Sales
-2. Generate District Report
+1. Get District Report
+2. Get Store Report
 3. Add New Employee
-4. Add a Store/District
-5. Exit");
+4. Add a New Store/District
+5. Exit
+");
                 var userChoice = Console.ReadLine();
                 switch (userChoice)
                 {
                     case "1":
-                        Console.WriteLine("You chose to enter district sales");
+                        Console.WriteLine("Get District Report");
                         break;
                     case "2":
-                        Console.WriteLine("You chose to enter district sales");
+                        Console.WriteLine("Get Store Report");
                         break;
                     case "3":
                         Console.WriteLine("Add New Employee");
