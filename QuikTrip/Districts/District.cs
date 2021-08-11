@@ -22,7 +22,49 @@ namespace QuikTrip.Districts
         {
             Name = name;
             DistManager = new DistrictManager(ManagerName, this);
+            RetailCurrentQuarter = 0;
+            RetailYearly = 0;
+            GasCurrentQuarter = 0;
+            GasYearly = 0;
+
+            
+
         }
-       // Needs Methods for stuff
+        public void GetDistrictReport()
+        {
+            Console.WriteLine($@"
+            {Name} Sales Report");
+            foreach (var store in Stores)
+            {
+                Stores.ForEach(store =>
+                {
+                    // Calculates the most up to date sales for all the districts stores
+                    RetailCurrentQuarter = 0;
+                    RetailYearly = 0;
+                    GasCurrentQuarter = 0;
+                    GasYearly = 0;
+                    RetailCurrentQuarter += store.RetailCurrentQuarter;
+                    RetailYearly += store.RetailYearly;
+                    GasCurrentQuarter += store.GasCurrentQuarter;
+                    GasYearly += store.GasYearly;
+
+                    Console.WriteLine(@$"
+                    -----------------------------------------
+                    Store {store.Name}
+                    -----------------------------------------
+");
+                    var employees = store.GetEmployees();
+                    var i = 0;
+                    foreach (var employee in employees)
+                    {
+                        Console.WriteLine($@"
+                        {i++}. {employee.Title}, {employee.Name}:
+                               {employee.}
+");
+                    }
+                });
+
+            }
+        }
     }
 }

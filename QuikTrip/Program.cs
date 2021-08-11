@@ -16,7 +16,7 @@ namespace QuikTrip
 
             District mockDistrict = DistrictRepository.GetDistricts().Where(district => district.Name == "d1").First();
             List<Store> mockStores = StoreRepository.GetStores().ToList();
-            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump"));
+            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump", 2000));
             mockDistrict.Stores.AddRange(mockStores);
 
             // Keeps Menu Looping
