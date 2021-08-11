@@ -52,6 +52,76 @@ QuikTrip Management Systems
                         while (newStoreDistrictLoop)
                         {
                             newStoreDistrictLoop = false;
+                            Console.WriteLine("Enter store or district to add");
+                            var storeOrDistrict = Console.ReadLine();
+                            switch (storeOrDistrict)
+                            {
+                                case "store":
+                                    Console.WriteLine("You selected add store");
+
+                                    Console.WriteLine("Please enter store name.");
+                                    var userStoreName = Console.ReadLine();
+
+                                    long userStoreRetailQuarter = 0;
+                                    var userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter retail sales for current quarter");
+                                        userStoreRetailQuarter = long.Parse(Console.ReadLine());
+
+                                        if (userStoreRetailQuarter.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreRetailYearly = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter retail yearly sales");
+                                        userStoreRetailYearly = long.Parse(Console.ReadLine());
+
+                                        if (userStoreRetailYearly.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreGasQuarter = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter gas sales for current quarter");
+                                        userStoreGasQuarter = long.Parse(Console.ReadLine());
+
+                                        if (userStoreGasQuarter.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreGasYearly = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter gas yearly sales");
+                                        userStoreGasYearly = long.Parse(Console.ReadLine());
+
+                                        if (userStoreGasYearly.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+                                    break;
+                                case "district":
+                                    Console.WriteLine("You selected add district");
+                                    var userDistrictInfo = Console.ReadLine();
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid choice");
+                                    break;
+                            }
                         }
                         break;
                     case "5":
