@@ -16,7 +16,7 @@ namespace QuikTrip
 
             District mockDistrict = DistrictRepository.GetDistricts().Where(district => district.Name == "d1").First();
             List<Store> mockStores = StoreRepository.GetStores().ToList();
-            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump"));
+            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump", 300000));
             mockDistrict.Stores.AddRange(mockStores);
 
             // Keeps Menu Looping
@@ -48,12 +48,13 @@ QuikTrip Management Systems
                         while (storeReportLoop)
                         {
                             Console.WriteLine("Please enter store name");
+                            Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
                             foreach (var store in mockStores)
                             {
                                 Console.WriteLine(store.Name);
                             }
-                            
+
                             var storeName = Console.ReadLine();
                             if (StoreRepository.FindStore(storeName))
                             {
@@ -69,9 +70,14 @@ QuikTrip Management Systems
                                 Console.WriteLine("--List of Employees--");
                                 foreach (var employee in employees)
                                 {
-                                    Console.WriteLine($"{employee.Name}");
+                                    for (var i = 0; i < employees.Count; i++)
+                                    {
+                                        Console.WriteLine("-------------------");
+                                        Console.WriteLine($"{i + 1}. {employee.Title}");
+                                        Console.WriteLine($"Name: {employee.Name}");
+                                        Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
+                                    }
                                 }
-
                                 // Store sales report
                                 Console.WriteLine("--Store report--");
                                 StoreRepository.StoreReport(storeName);
