@@ -30,5 +30,11 @@ namespace QuikTrip.Stores
             _employees.Add(employee);
         }
         // Needs Methods for stuff
+        
+        public List<EmployeeBase> GetEmployees()
+        {
+            return _employees;
+        }
     }
 }
+

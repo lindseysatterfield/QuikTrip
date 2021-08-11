@@ -42,6 +42,39 @@ QuikTrip Management Systems
                         break;
                     case "2":
                         Console.WriteLine("Get Store Report"); // Ask user for a specific store name
+                        Console.WriteLine("-----List of All The Stores-----");
+                        Console.WriteLine();
+                        var storeReportLoop = true;
+
+                        while (storeReportLoop)
+                        {
+                            Console.WriteLine("Please enter store name");
+                            foreach (var store in mockStores)
+                            {
+                                Console.WriteLine(store.Name);
+                            }
+                            
+                            var storeName = Console.ReadLine();
+                            if (StoreRepository.FindStore(storeName))
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine("You found a matching store");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                StoreRepository.StoreReport(storeName);
+                                var employees = mockStores[0].GetEmployees();
+                                foreach (var employee in employees)
+                                {
+                                    Console.WriteLine($"{employee.Name}");
+                                }
+                                storeReportLoop = false;
+                            } else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Invalid");
+                            }       
+                        }
+                        
+
                         break;
                     case "3":
                         Console.WriteLine("Add New Employee");

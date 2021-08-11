@@ -25,5 +25,29 @@ namespace QuikTrip.Repositories
         {
             _stores.Add(Store);
         }
+
+
+        // Find if store exists to generate report
+        public static bool FindStore(string name)
+        {
+            var result = _stores.Any(x => x.Name == name);
+            return result;
+        }
+
+
+        // Generate Store Report
+        public static void StoreReport(string name)
+        {
+            var storeReport = _stores.Where(x => x.Name == name);
+            foreach (var store in storeReport)
+            {
+                Console.WriteLine($"Sales for {store.Name}");
+                Console.WriteLine($"Gas Yearly: ${String.Format("{0:#,##0.##}",store.GasYearly)}");
+                Console.WriteLine($"Gas Current Quarter: ${String.Format("{0:#,##0.##}", store.GasCurrentQuarter)}");
+                Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
+                Console.WriteLine($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
+            }
+            
+        }
     }
 }
