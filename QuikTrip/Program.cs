@@ -71,13 +71,25 @@ QuikTrip Management Systems
                             switch (storeOrDistrict)
                             {
                                 case "store":
-                                    Console.WriteLine("You selected add store");
+                                    var userQuestionLoop = true;
+                                    District district = null;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("What district would you like to add this store to?");
+                                        var userDistrictInput = Console.ReadLine();
+                                        if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput) != null)
+                                        {
+                                            district = DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput);
+                                            userQuestionLoop = false;
+                                        }
+                                       
+                                    }
 
                                     Console.WriteLine("Please enter store name.");
                                     var userStoreName = Console.ReadLine();
 
                                     long userStoreRetailQuarter = 0;
-                                    var userQuestionLoop = true;
+                                    userQuestionLoop = true;
                                     while (userQuestionLoop)
                                     {
                                         Console.WriteLine("Please enter retail sales for current quarter");
@@ -128,8 +140,18 @@ QuikTrip Management Systems
                                         }
                                     }
 
-                                    StoreRepository.SaveNewStore(new Store(userStoreName, userStoreRetailQuarter, userStoreRetailYearly, userStoreGasQuarter, userStoreGasYearly));
+                                    StoreRepository.SaveNewStore(new Store(
+                                        userStoreName,
+                                        userStoreRetailQuarter,
+                                        userStoreRetailYearly,
+                                        userStoreGasQuarter,
+                                        userStoreGasYearly
+                                     ));
 
+                                    district.Stores.Add(StoreRepository.GetSingleStore(userStoreName));
+
+                                    Console.WriteLine("Store saved");
+                                    
                                     
                                     break;
                                 case "district":

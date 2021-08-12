@@ -26,5 +26,10 @@ namespace QuikTrip.Repositories
         {
             _stores.Add(Store);
         }
+
+        public static Store GetSingleStore(string name)
+        {
+            return StoreRepository.GetStores().FirstOrDefault(store => store.Name == name);
+        }
     }
 }
