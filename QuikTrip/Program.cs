@@ -43,6 +43,7 @@ QuikTrip Management Systems
                     case "2":
                         Console.WriteLine("Get Store Report"); // Ask user for a specific store name
                         Console.WriteLine();
+                        List<Store> stores = StoreRepository.GetStores().ToList();
                         var storeReportLoop = true;
 
                         while (storeReportLoop)
@@ -50,7 +51,7 @@ QuikTrip Management Systems
                             Console.WriteLine("Please enter store name");
                             Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
-                            foreach (var store in mockStores)
+                            foreach (var store in stores)
                             {
                                 Console.WriteLine(store.Name);
                             }
@@ -61,26 +62,29 @@ QuikTrip Management Systems
                                 Console.Clear();
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.WriteLine("You found a matching store");
+                                Console.WriteLine();
                                 Console.ForegroundColor = ConsoleColor.White;
                                 
                                 // Display store employees
                                 var index = StoreRepository.FindIndex(storeName);
-                                var employees = mockStores[index].GetEmployees();
+                                var employees = stores[index].GetEmployees();
                                 Console.WriteLine($"Information about {storeName}");
+                                Console.WriteLine("-------------------");
                                 Console.WriteLine("--List of Employees--");
                                 foreach (var employee in employees)
                                 {
                                     for (var i = 0; i < employees.Count; i++)
                                     {
-                                        Console.WriteLine("-------------------");
                                         Console.WriteLine($"{i + 1}. {employee.Title}");
                                         Console.WriteLine($"Name: {employee.Name}");
                                         Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
                                     }
                                 }
                                 // Store sales report
-                                Console.WriteLine("--Store report--");
+                                Console.WriteLine("----Store Sales Report-----");
                                 StoreRepository.StoreReport(storeName);
+                                Console.WriteLine();
+                                Console.WriteLine("---End of Report---");
                                 storeReportLoop = false;
                             } else
                             {
