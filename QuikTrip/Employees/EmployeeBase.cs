@@ -9,16 +9,13 @@ namespace QuikTrip.Employees
     class EmployeeBase
     {
         public string Name { get; set; }
-        public string Title { get; set; } = "Chump";
-        public long RetailCurrentQuarter { get; private set; } = 10200;
-        public long RetailYearly { get; set; } = 10015150;
-        public long GasCurrentQuarter { get; set; } = 10455100;
-        public long GasYearly { get; set; } = 102300;
-        public long EmployeeSales { get; set; } = 100220;
-        public EmployeeBase(string name, string title)
+        public string Title { get; set; }
+        public long EmployeeSales { get; set; } //arbitrary number
+        public EmployeeBase(string name, string title, long employeeSales)
         {
             Name = name;
             Title = title;
+            EmployeeSales = employeeSales;
         }
         // Methods should go in the inherited classes
     }

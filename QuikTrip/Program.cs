@@ -16,7 +16,9 @@ namespace QuikTrip
 
             District mockDistrict = DistrictRepository.GetDistricts().Where(district => district.Name == "d1").First();
             List<Store> mockStores = StoreRepository.GetStores().ToList();
-            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump"));
+            mockStores[0].AddEmployee(new EmployeeBase("Jesse", "Manager", 2010));
+            mockStores[0].AddEmployee(new EmployeeBase("Jody", "Associate", 3150));
+            mockStores[0].AddEmployee(new EmployeeBase("Tim", "Assistant Manager", 1316));
             mockDistrict.Stores.AddRange(mockStores);
 
             // Keeps Menu Looping
@@ -38,7 +40,19 @@ QuikTrip Management Systems
                 switch (userChoice)
                 {
                     case "1":
-                        Console.WriteLine("Get District Report"); // Ask user for a district name
+                        var districtNameQuestionLoop = true;
+                        while (districtNameQuestionLoop)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Enter district name");
+                            var userInput = Console.ReadLine();
+                            if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
+                            {
+                                districtNameQuestionLoop = false;
+                                DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput).GetDistrictReport();
+                            }
+                            
+                        }
                         break;
                     case "2":
                         Console.WriteLine("Get Store Report"); // Ask user for a specific store name
