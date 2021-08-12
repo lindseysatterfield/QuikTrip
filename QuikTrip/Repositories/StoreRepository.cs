@@ -42,7 +42,6 @@ namespace QuikTrip.Repositories
             
             foreach (var store in storeReport)
             {
-                Console.WriteLine($"Sales for {store.Name}");
                 Console.WriteLine($"Gas Yearly: ${String.Format("{0:#,##0.##}",store.GasYearly)}");
                 Console.WriteLine($"Gas Current Quarter: ${String.Format("{0:#,##0.##}", store.GasCurrentQuarter)}");
                 Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");

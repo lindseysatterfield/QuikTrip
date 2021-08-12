@@ -16,7 +16,9 @@ namespace QuikTrip
 
             District mockDistrict = DistrictRepository.GetDistricts().Where(district => district.Name == "d1").First();
             List<Store> mockStores = StoreRepository.GetStores().ToList();
-            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump", 300000));
+            mockStores[0].AddEmployee(new EmployeeBase("Jesse", "Manager", 2010));
+            mockStores[0].AddEmployee(new EmployeeBase("Jody", "Associate", 3150));
+            mockStores[0].AddEmployee(new EmployeeBase("Tim", "Assistant Manager", 1316));
             mockDistrict.Stores.AddRange(mockStores);
 
             // Keeps Menu Looping
@@ -38,24 +40,33 @@ QuikTrip Management Systems
                 switch (userChoice)
                 {
                     case "1":
-                        Console.WriteLine("Get District Report"); // Ask user for a district name
+                        var districtNameQuestionLoop = true;
+                        while (districtNameQuestionLoop)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Enter district name");
+                            var userInput = Console.ReadLine();
+                            if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
+                            {
+                                districtNameQuestionLoop = false;
+                                DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput).GetDistrictReport();
+                            }
+                        }
                         break;
                     case "2":
-                        Console.WriteLine("Get Store Report"); // Ask user for a specific store name
-                        Console.WriteLine();
-                        List<Store> stores = StoreRepository.GetStores().ToList();
+                        Console.Clear();
                         var storeReportLoop = true;
-
                         while (storeReportLoop)
                         {
                             Console.WriteLine("Please enter store name");
                             Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
-                            foreach (var store in stores)
+                            foreach (var store in mockStores)
                             {
+                                Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.WriteLine(store.Name);
+                                Console.ForegroundColor = ConsoleColor.White;
                             }
-
                             var storeName = Console.ReadLine();
                             if (StoreRepository.FindStore(storeName))
                             {
@@ -64,27 +75,29 @@ QuikTrip Management Systems
                                 Console.WriteLine("You found a matching store");
                                 Console.WriteLine();
                                 Console.ForegroundColor = ConsoleColor.White;
-                                
                                 // Display store employees
                                 var index = StoreRepository.FindIndex(storeName);
-                                var employees = stores[index].GetEmployees();
-                                Console.WriteLine($"Information about {storeName}");
-                                Console.WriteLine("-------------------");
-                                Console.WriteLine("--List of Employees--");
+                                var employees = mockStores[index].GetEmployees();
+                                Console.WriteLine($"----Your favorite QuikTrip Store----");
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                Console.WriteLine($"--List of {storeName}'s Awesome Employees--");
+                                Console.ForegroundColor = ConsoleColor.White;
                                 foreach (var employee in employees)
                                 {
-                                    for (var i = 0; i < employees.Count; i++)
-                                    {
-                                        Console.WriteLine($"{i + 1}. {employee.Title}");
-                                        Console.WriteLine($"Name: {employee.Name}");
-                                        Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
-                                    }
+                                    Console.WriteLine("------------------------");
+                                    Console.WriteLine($"Title: {employee.Title}");
+                                    Console.WriteLine($"Name: {employee.Name}");
+                                    Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
                                 }
+                                Console.WriteLine("------------------------");
                                 // Store sales report
-                                Console.WriteLine("----Store Sales Report-----");
+                                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                                Console.WriteLine($"----Store Sales Report for {storeName}-----");
+                                Console.ForegroundColor = ConsoleColor.White;
                                 StoreRepository.StoreReport(storeName);
-                                Console.WriteLine();
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine("---End of Report---");
+                                Console.ForegroundColor = ConsoleColor.White;
                                 storeReportLoop = false;
                             } else
                             {
@@ -100,11 +113,6 @@ QuikTrip Management Systems
                         break;
                     case "4":
                         Console.WriteLine("Add a new store or new district");
-                        var newStoreDistrictLoop = true;
-                        while (newStoreDistrictLoop)
-                        {
-                            newStoreDistrictLoop = false;
-                        }
                         break;
                     case "5":
                         Console.WriteLine("Exiting");
