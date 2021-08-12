@@ -16,7 +16,7 @@ namespace QuikTrip
 
             District mockDistrict = DistrictRepository.GetDistricts().Where(district => district.Name == "d1").First();
             List<Store> mockStores = StoreRepository.GetStores().ToList();
-            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump"));
+            mockStores[0].AddEmployee(new EmployeeBase("Jdog", "Chicken Eating Chump", 169985774));
             mockDistrict.Stores.AddRange(mockStores);
 
             // Keeps Menu Looping
@@ -45,6 +45,28 @@ QuikTrip Management Systems
                         break;
                     case "3":
                         Console.WriteLine("Add New Employee");
+                        var newEmployeeLoop = true;
+                        while (newEmployeeLoop)
+                        {
+                            newEmployeeLoop = false;
+                            Console.WriteLine("Enter Store # to add Employee:");
+                            var storeNumber = Console.ReadLine();
+
+                            Console.WriteLine($"You entered Store # {storeNumber}. Is this the store you want to add an employee to? Yes or No.");
+                            var correctStoreNumberQuestion = Console.ReadLine();
+                            switch (correctStoreNumberQuestion.ToLower())
+                            {
+                                case "no":
+                                    newEmployeeLoop = true;
+                                    break;
+                                case "yes":
+                                    Console.WriteLine("Great. Lets add an employee.");
+                                    Console.WriteLine($"")
+                                default:
+                                    Console.WriteLine("Invalid Store #");
+                                    break;
+                            }
+                        }
                         break;
                     case "4":
                         Console.WriteLine("Add a new store or new district");
