@@ -113,6 +113,10 @@ QuikTrip Management Systems
                                             userQuestionLoop = false;
                                         }
                                     }
+
+                                    StoreRepository.SaveNewStore(new Store(userStoreName, userStoreRetailQuarter, userStoreRetailYearly, userStoreGasQuarter, userStoreGasYearly));
+
+                                    
                                     break;
                                 case "district":
                                     Console.WriteLine("You selected add district");

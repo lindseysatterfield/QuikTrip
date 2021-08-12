@@ -20,7 +20,8 @@ namespace QuikTrip.Repositories
         public static List<Store> GetStores()
         {
             return _stores;
-        } 
+        }
+
         public static void SaveNewStore(Store Store)
         {
             _stores.Add(Store);
