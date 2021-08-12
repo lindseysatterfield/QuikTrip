@@ -35,26 +35,6 @@ namespace QuikTrip.Repositories
         }
 
 
-        // Generate Store Report
-        public static void StoreReport(string name)
-        {
-            var storeReport = _stores.Where(x => x.Name == name);
-            
-            foreach (var store in storeReport)
-            {
-                Console.WriteLine($"Gas Yearly: ${String.Format("{0:#,##0.##}",store.GasYearly)}");
-                Console.WriteLine($"Gas Current Quarter: ${String.Format("{0:#,##0.##}", store.GasCurrentQuarter)}");
-                Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
-                Console.WriteLine($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
-            }
-            
-        }
 
-        // Find index of the store from the _stores
-        public static int FindIndex(string name)
-        {
-            int index = _stores.FindIndex(x => x.Name == name);
-            return index;
-        }
     }
 }
