@@ -48,7 +48,6 @@ namespace QuikTrip.Repositories
                 Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
                 Console.WriteLine($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
             }
-            
         }
 
         // Find index of the store from the _stores

@@ -23,5 +23,9 @@ namespace QuikTrip.Repositories
         {
             _districts.Add(District);
         }
+        public static District GetSingleDistrict(string name)
+        {
+            return DistrictRepository.GetDistricts().FirstOrDefault(store => store.Name == name);
+        }
     }
 }

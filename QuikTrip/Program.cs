@@ -117,7 +117,7 @@ QuikTrip Management Systems
                         while (newStoreDistrictLoop)
                         {
                             newStoreDistrictLoop = false;
-                            Console.WriteLine("Enter store or district to add");
+                            Console.WriteLine("Enter 'store' or 'district' to add");
                             var storeOrDistrict = Console.ReadLine();
                             switch (storeOrDistrict)
                             {
@@ -136,7 +136,7 @@ QuikTrip Management Systems
                                        
                                     }
 
-                                    Console.WriteLine("Please enter store name.");
+                                    Console.WriteLine("Please enter store name");
                                     var userStoreName = Console.ReadLine();
 
                                     long userStoreRetailQuarter = 0;
@@ -201,13 +201,28 @@ QuikTrip Management Systems
 
                                     district.Stores.Add(StoreRepository.GetSingleStore(userStoreName));
 
-                                    Console.WriteLine("Store saved");
-                                    
-                                    
+                                    Console.WriteLine("Store added");
                                     break;
+                                
                                 case "district":
                                     Console.WriteLine("You selected add district");
-                                    var userDistrictInfo = Console.ReadLine();
+                                    userQuestionLoop = true;
+                                    string userDistrictName = null;
+                                    string userDistrictManager = null;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter district name");
+                                        userDistrictName = Console.ReadLine();
+                                        Console.WriteLine("Enter district manager name");
+                                        userDistrictManager = Console.ReadLine();
+
+                                        if (userDistrictName.GetType() == typeof(string))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+                                    DistrictRepository.SaveNewDistrict(new District(userDistrictName, userDistrictManager));
+                                    Console.WriteLine("District added");
                                     break;
                                 default:
                                     Console.WriteLine("Invalid choice");
