@@ -40,18 +40,7 @@ QuikTrip Management Systems
                 switch (userChoice)
                 {
                     case "1":
-                        var districtNameQuestionLoop = true;
-                        while (districtNameQuestionLoop)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Enter district name");
-                            var userInput = Console.ReadLine();
-                            if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
-                            {
-                                districtNameQuestionLoop = false;
-                                DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput).GetDistrictReport();
-                            }
-                        }
+                        DistrictManager.RequestDistrictReport();
                         break;
                     case "2":
                         Console.Clear();
