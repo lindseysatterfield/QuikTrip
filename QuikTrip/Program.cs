@@ -5,6 +5,7 @@ using QuikTrip.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Spectre.Console;
 
 namespace QuikTrip
 {
@@ -58,54 +59,45 @@ QuikTrip Management Systems
                         var storeReportLoop = true;
                         while (storeReportLoop)
                         {
-                            Console.WriteLine("Please enter store name");
+                            List<Store> stores = StoreRepository.GetStores().ToList();
+                            AnsiConsole.MarkupLine("[greenyellow]Please enter store name[/]");
                             Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
-                            foreach (var store in mockStores)
+                            foreach (var store in stores)
                             {
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.WriteLine(store.Name);
+                                AnsiConsole.MarkupLine($"[blue]{store.Name}[/]");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
                             var storeName = Console.ReadLine();
                             if (StoreRepository.FindStore(storeName))
                             {
                                 Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine("You found a matching store");
+                                AnsiConsole.MarkupLine("[yellow]You found a matching store[/]");
                                 Console.WriteLine();
-                                Console.ForegroundColor = ConsoleColor.White;
                                 // Display store employees
                                 var index = StoreRepository.FindIndex(storeName);
-                                var employees = mockStores[index].GetEmployees();
+                                var employees = stores[index].GetEmployees();
                                 Console.WriteLine($"----Your favorite QuikTrip Store----");
-                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                Console.WriteLine($"--List of {storeName}'s Awesome Employees--");
-                                Console.ForegroundColor = ConsoleColor.White;
+                                AnsiConsole.MarkupLine($"[deeppink4_2]--List of {storeName}'s Awesome Employees--[/]");
+                                var i = 1;
                                 foreach (var employee in employees)
                                 {
                                     Console.WriteLine("------------------------");
-                                    Console.WriteLine($"Title: {employee.Title}");
+                                    Console.WriteLine($"{i++}. {employee.Title}");
                                     Console.WriteLine($"Name: {employee.Name}");
                                     Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
                                 }
                                 Console.WriteLine("------------------------");
                                 // Store sales report
-                                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                                Console.WriteLine($"----Store Sales Report for {storeName}-----");
-                                Console.ForegroundColor = ConsoleColor.White;
                                 StoreRepository.StoreReport(storeName);
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.WriteLine("---End of Report---");
-                                Console.ForegroundColor = ConsoleColor.White;
+                                AnsiConsole.MarkupLine("[red3]---End of Report---[/]");
                                 storeReportLoop = false;
-                            } else
+                            }
+                            else
                             {
                                 Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Invalid");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }       
+                                AnsiConsole.MarkupLine("[red3_1]Invalid[/]");
+                            }
                         }
                         break;
                     case "3":
