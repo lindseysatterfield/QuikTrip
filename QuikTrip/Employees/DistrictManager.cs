@@ -77,7 +77,6 @@ namespace QuikTrip.Employees
             while (districtNameQuestionLoop)
             {
                 Console.Clear();
-                Console.WriteLine("Enter district name");
 
                 var districts = DistrictRepository.GetDistricts().ToList();
                 var districtNames = new List<string>();
@@ -85,18 +84,14 @@ namespace QuikTrip.Employees
                 {
                     districtNames.Add(district.Name);
                 }
-                var fruit = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                   .Title("What's your [green]favorite fruit[/]?")
+                var districtChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                   .Title("Choose a district?")
                    .AddChoices(districtNames));
 
-                // Echo the fruit back to the terminal
-                AnsiConsole.WriteLine($"I agree. {fruit} is tasty!");
-
-                var userInput = Console.ReadLine();
-                if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
+                if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == districtChoice) != null)
                 {
                     districtNameQuestionLoop = false;
-                    DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput).GetDistrictReport();
+                    DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == districtChoice).GetDistrictReport();
                 }
             }
         }
