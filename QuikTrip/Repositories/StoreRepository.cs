@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spectre.Console;
 
 namespace QuikTrip.Repositories
 {
@@ -40,14 +41,17 @@ namespace QuikTrip.Repositories
         public static void StoreReport(string name)
         {
             var storeReport = _stores.Where(x => x.Name == name);
-            
+            var table = new Table();
             foreach (var store in storeReport)
             {
-                Console.WriteLine($"Gas Yearly: ${String.Format("{0:#,##0.##}",store.GasYearly)}");
-                Console.WriteLine($"Gas Current Quarter: ${String.Format("{0:#,##0.##}", store.GasCurrentQuarter)}");
-                Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
-                Console.WriteLine($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
+                table.AddColumn($"[chartreuse2]----Store Sales Report for {store.Name}-----[/]");
+                table.AddRow($"Gas Yearly: ${String.Format("{0:#,##0.##}", store.GasYearly)}");
+                table.AddRow($"Gas Current Quarter: ${String.Format("{0:#,##0.##}", store.GasCurrentQuarter)}");
+                table.AddRow($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
+                table.AddRow($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
             }
+            AnsiConsole.Render(table);
+
         }
 
         // Find index of the store from the _stores

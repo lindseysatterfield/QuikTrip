@@ -44,58 +44,115 @@ namespace QuikTrip
                         var storeReportLoop = true;
                         while (storeReportLoop)
                         {
-                            Console.WriteLine("Please enter store name");
+                            List<Store> stores = StoreRepository.GetStores().ToList();
+                            AnsiConsole.MarkupLine("[greenyellow]Please enter store name[/]");
                             Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
-                            foreach (var store in mockStores)
+                            foreach (var store in stores)
                             {
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.WriteLine(store.Name);
+                                AnsiConsole.MarkupLine($"[blue]{store.Name}[/]");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
                             var storeName = Console.ReadLine();
                             if (StoreRepository.FindStore(storeName))
                             {
                                 Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine("You found a matching store");
+                                AnsiConsole.MarkupLine("[yellow]You found a matching store[/]");
                                 Console.WriteLine();
-                                Console.ForegroundColor = ConsoleColor.White;
                                 // Display store employees
                                 var index = StoreRepository.FindIndex(storeName);
-                                var employees = mockStores[index].GetEmployees();
+                                var employees = stores[index].GetEmployees();
                                 Console.WriteLine($"----Your favorite QuikTrip Store----");
-                                Console.ForegroundColor = ConsoleColor.Magenta;
-                                Console.WriteLine($"--List of {storeName}'s Awesome Employees--");
-                                Console.ForegroundColor = ConsoleColor.White;
+                                AnsiConsole.MarkupLine($"[deeppink4_2]--List of {storeName}'s Awesome Employees--[/]");
+                                var i = 1;
                                 foreach (var employee in employees)
                                 {
                                     Console.WriteLine("------------------------");
-                                    Console.WriteLine($"Title: {employee.Title}");
+                                    Console.WriteLine($"{i++}. {employee.Title}");
                                     Console.WriteLine($"Name: {employee.Name}");
                                     Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
                                 }
                                 Console.WriteLine("------------------------");
                                 // Store sales report
-                                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                                Console.WriteLine($"----Store Sales Report for {storeName}-----");
-                                Console.ForegroundColor = ConsoleColor.White;
                                 StoreRepository.StoreReport(storeName);
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.WriteLine("---End of Report---");
-                                Console.ForegroundColor = ConsoleColor.White;
+                                AnsiConsole.MarkupLine("[red3]---End of Report---[/]");
                                 storeReportLoop = false;
-                            } else
+                            }
+                            else
                             {
                                 Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Invalid");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }       
+                                AnsiConsole.MarkupLine("[red3_1]Invalid[/]");
+                            }
                         }
                         break;
-                    case "3. Add New Employee":
+                    case "3":
                         Console.WriteLine("Add New Employee");
+                        var newEmployeeLoop = true;
+                        while (newEmployeeLoop)
+                        {
+                            newEmployeeLoop = false;
+                            Console.WriteLine("Please enter store name to add employee:");
+                            Console.WriteLine();
+                            Console.WriteLine("---Available Stores---");
+                            foreach (var store in mockStores)
+                            {
+                                Console.WriteLine(store.Name);
+                            }
+                            var storeName = Console.ReadLine();
+
+                            Console.WriteLine($"You entered Store {storeName}. Is this the store you want to add an employee to? Yes or No.");
+                            var correctStoreNameQuestion = Console.ReadLine();
+                            switch (correctStoreNameQuestion.ToLower())
+                            {
+                                case "no":
+                                    newEmployeeLoop = true;
+                                    break;
+                                case "yes":
+                                    Console.WriteLine("Great. Lets add an employee.");
+                                    Console.WriteLine();
+                                    Console.WriteLine($"Please enter the new employee's name:");
+                                    var newEmployeeName = Console.ReadLine();
+
+                                    Console.WriteLine($"Enter {newEmployeeName}'s Title:");
+                                    var newEmployeeTitle = Console.ReadLine();
+
+                                    long newEmployeeRetailSales = 0;
+                                    var userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Enter Employee Retail Sales total as 0");
+                                        newEmployeeRetailSales = long.Parse(Console.ReadLine());
+
+                                        if (newEmployeeRetailSales.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    if (StoreRepository.FindStore(storeName))
+                                    {
+                                        Console.Clear();
+                                        var index = StoreRepository.FindIndex(storeName);
+                                        mockStores[index].AddEmployee(new EmployeeBase(newEmployeeName, newEmployeeTitle, newEmployeeRetailSales));
+                                        Console.WriteLine($"{newEmployeeName} has been added to {storeName} as {newEmployeeTitle}.");
+                                        Console.WriteLine();
+                                        var employeeList = mockStores[index].GetEmployees();
+                                        Console.WriteLine($"--List of {storeName}'s Employees--");
+                                        foreach (var employee in employeeList)
+                                        {
+                                            Console.WriteLine("------------------------");
+                                            Console.WriteLine($"Title: {employee.Title}");
+                                            Console.WriteLine($"Name: {employee.Name}");
+                                            Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
+                                        }
+                                        Console.WriteLine("------------------------");
+                                    }
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid Store #");
+                                    break;
+                            }
+                        }
                         break;
                     case "4. Add A New Store or District":
                         Console.WriteLine("Add a new store or new district");
