@@ -200,30 +200,22 @@ QuikTrip Management Systems
                                      ));
 
                                     district.Stores.Add(StoreRepository.GetSingleStore(userStoreName));
-
                                     Console.WriteLine("Store added");
                                     break;
                                 
                                 case "district":
                                     Console.WriteLine("You selected add district");
-                                    userQuestionLoop = true;
-                                    string userDistrictName = null;
-                                    string userDistrictManager = null;
-                                    while (userQuestionLoop)
-                                    {
-                                        Console.WriteLine("Please enter district name");
-                                        userDistrictName = Console.ReadLine();
-                                        Console.WriteLine("Enter district manager name");
-                                        userDistrictManager = Console.ReadLine();
 
-                                        if (userDistrictName.GetType() == typeof(string))
-                                        {
-                                            userQuestionLoop = false;
-                                        }
-                                    }
+                                    Console.WriteLine("Please enter district name");
+                                    var userDistrictName = Console.ReadLine();
+
+                                    Console.WriteLine("Enter district manager name");
+                                    var userDistrictManager = Console.ReadLine();
+
                                     DistrictRepository.SaveNewDistrict(new District(userDistrictName, userDistrictManager));
                                     Console.WriteLine("District added");
                                     break;
+
                                 default:
                                     Console.WriteLine("Invalid choice");
                                     break;
