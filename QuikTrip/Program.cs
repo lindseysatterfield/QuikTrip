@@ -100,7 +100,74 @@ QuikTrip Management Systems
                         }
                         break;
                     case "3":
+                        Console.Clear();
                         Console.WriteLine("Add New Employee");
+                        var newEmployeeLoop = true;
+                        while (newEmployeeLoop)
+                        {
+                            newEmployeeLoop = false;
+                            Console.WriteLine("Please enter store name to add employee:");
+                            Console.WriteLine();
+                            Console.WriteLine("---Available Stores---");
+                            foreach (var store in mockStores)
+                            {
+                                Console.WriteLine(store.Name);
+                            }
+                            var storeName = Console.ReadLine();
+
+                            Console.WriteLine($"You entered Store {storeName}. Is this the store you want to add an employee to? Yes or No.");
+                            var correctStoreNameQuestion = Console.ReadLine();
+                            switch (correctStoreNameQuestion.ToLower())
+                            {
+                                case "no":
+                                    newEmployeeLoop = true;
+                                    break;
+                                case "yes":
+                                    Console.WriteLine("Great. Lets add an employee.");
+                                    Console.WriteLine();
+                                    Console.WriteLine($"Please enter the new employee's name:");
+                                    var newEmployeeName = Console.ReadLine();
+
+                                    Console.WriteLine($"Enter {newEmployeeName}'s Title:");
+                                    var newEmployeeTitle = Console.ReadLine();
+
+                                    long newEmployeeRetailSales = 0;
+                                    var userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Enter Employee Retail Sales total as 0");
+                                        newEmployeeRetailSales = long.Parse(Console.ReadLine());
+
+                                        if (newEmployeeRetailSales.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    if (StoreRepository.FindStore(storeName))
+                                    {
+                                        Console.Clear();
+                                        var index = StoreRepository.FindIndex(storeName);
+                                        mockStores[index].AddEmployee(new EmployeeBase(newEmployeeName, newEmployeeTitle, newEmployeeRetailSales));
+                                        Console.WriteLine($"{newEmployeeName} has been added to {storeName} as {newEmployeeTitle}.");
+                                        Console.WriteLine();
+                                        var employeeList = mockStores[index].GetEmployees();
+                                        Console.WriteLine($"--List of {storeName}'s Employees--");
+                                        foreach (var employee in employeeList)
+                                        {
+                                            Console.WriteLine("------------------------");
+                                            Console.WriteLine($"Title: {employee.Title}");
+                                            Console.WriteLine($"Name: {employee.Name}");
+                                            Console.WriteLine($"Retail Sales: ${String.Format("{0:#,##0.##}", employee.EmployeeSales)}");
+                                        }
+                                        Console.WriteLine("------------------------");
+                                    }
+                                    break;
+                                default:
+                                    Console.WriteLine("Invalid Store #");
+                                    break;
+                            }
+                        }
                         break;
                     case "4":
                         Console.WriteLine("Add a new store or new district");
