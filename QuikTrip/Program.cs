@@ -27,48 +27,36 @@ namespace QuikTrip
 
             while (menuLoop)
             {
-                //Console.Clear();
-                Console.WriteLine(@"
-QuikTrip Management Systems
+                var highlightStyle = new Style().Foreground(Color.Lime);
 
-1. Get District Report
-2. Get Store Report
-3. Add New Employee
-4. Add a New Store/District
-5. Exit
-");
-                var userChoice = Console.ReadLine();
+                var userChoice = AnsiConsole.Prompt(
+    new SelectionPrompt<string>()
+        .Title("[green]QuikTrip[/] Management Systems")
+        .HighlightStyle(highlightStyle)
+        .PageSize(10)
+        .AddChoices(new[] {
+            "1. Get District Report", "2. Get Store Report", "3. Add New Employee", "4. Add A New Store or District", "5. Exit Application"
+        }));
                 switch (userChoice)
                 {
-                    case "1":
-                        var districtNameQuestionLoop = true;
-                        while (districtNameQuestionLoop)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Enter district name");
-                            var userInput = Console.ReadLine();
-                            if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
-                            {
-                                districtNameQuestionLoop = false;
-                                DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput).GetDistrictReport();
-                            }
-                        }
+                    case "1. Get District Report":
+                        DistrictManager.RequestDistrictReport();
                         break;
-                    case "2":
+                    case "2. Get Store Report":
                         Console.Clear();
                         var storeReportLoop = true;
                         while (storeReportLoop)
                         {
                             List<Store> stores = StoreRepository.GetStores().ToList();
-                            AnsiConsole.MarkupLine("[greenyellow]Please enter store name[/]");
-                            Console.WriteLine();
-                            Console.WriteLine("---Available Stores---");
-                            foreach (var store in stores)
-                            {
-                                AnsiConsole.MarkupLine($"[blue]{store.Name}[/]");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                            var storeName = Console.ReadLine();
+                            AnsiConsole.MarkupLine("[greenyellow]Please choose a store[/]");
+                            var storeNames = new List<string>();
+                            stores.ForEach(store => storeNames.Add(store.Name));
+                            var storeName = AnsiConsole.Prompt(
+                                  new SelectionPrompt<string>()
+                                      .Title("---Available Stores---")
+                                      .HighlightStyle(highlightStyle)
+                                      .PageSize(10)
+                                      .AddChoices(storeNames));
                             if (StoreRepository.FindStore(storeName))
                             {
                                 Console.Clear();
@@ -100,22 +88,21 @@ QuikTrip Management Systems
                             }
                         }
                         break;
-                    case "3":
-                        Console.Clear();
+                    case "3. Add New Employee":
                         Console.WriteLine("Add New Employee");
                         var newEmployeeLoop = true;
                         while (newEmployeeLoop)
                         {
+                            var storeNames = new List<string>();
+                            var stores = StoreRepository.GetStores().ToList();
+                            stores.ForEach(store => storeNames.Add(store.Name));
                             newEmployeeLoop = false;
-                            Console.WriteLine("Please enter store name to add employee:");
-                            Console.WriteLine();
-                            Console.WriteLine("---Available Stores---");
-                            foreach (var store in mockStores)
-                            {
-                                Console.WriteLine(store.Name);
-                            }
-                            var storeName = Console.ReadLine();
-
+                            var storeName = AnsiConsole.Prompt(
+                                  new SelectionPrompt<string>()
+                                      .Title("Please choose a store to add employee to")
+                                      .HighlightStyle(highlightStyle)
+                                      .PageSize(10)
+                                      .AddChoices(storeNames));
                             Console.WriteLine($"You entered Store {storeName}. Is this the store you want to add an employee to? Yes or No.");
                             var correctStoreNameQuestion = Console.ReadLine();
                             switch (correctStoreNameQuestion.ToLower())
@@ -149,10 +136,10 @@ QuikTrip Management Systems
                                     {
                                         Console.Clear();
                                         var index = StoreRepository.FindIndex(storeName);
-                                        mockStores[index].AddEmployee(new EmployeeBase(newEmployeeName, newEmployeeTitle, newEmployeeRetailSales));
+                                        stores[index].AddEmployee(new EmployeeBase(newEmployeeName, newEmployeeTitle, newEmployeeRetailSales));
                                         Console.WriteLine($"{newEmployeeName} has been added to {storeName} as {newEmployeeTitle}.");
                                         Console.WriteLine();
-                                        var employeeList = mockStores[index].GetEmployees();
+                                        var employeeList = stores[index].GetEmployees();
                                         Console.WriteLine($"--List of {storeName}'s Employees--");
                                         foreach (var employee in employeeList)
                                         {
@@ -170,14 +157,20 @@ QuikTrip Management Systems
                             }
                         }
                         break;
-                    case "4":
-                        Console.WriteLine("Add a new store or new district");
+                    case "4. Add A New Store or District":
                         var newStoreDistrictLoop = true;
                         while (newStoreDistrictLoop)
                         {
                             newStoreDistrictLoop = false;
-                            Console.WriteLine("Enter 'store' or 'district' to add");
-                            var storeOrDistrict = Console.ReadLine();
+                 
+                            var storeOrDistrict = AnsiConsole.Prompt(
+                              new SelectionPrompt<string>()
+                                  .Title("Choose what to add.")
+                                  .PageSize(10)
+                                  .HighlightStyle(highlightStyle)
+                                  .AddChoices(new[] {
+                                     "store","district"
+                                  }));
                             switch (storeOrDistrict)
                             {
                                 case "store":
@@ -185,8 +178,16 @@ QuikTrip Management Systems
                                     District district = null;
                                     while (userQuestionLoop)
                                     {
-                                        Console.WriteLine("What district would you like to add this store to?");
-                                        var userDistrictInput = Console.ReadLine();
+                                        var highlightStyle1 = new Style().Foreground(Color.Lime);
+                                        var districtNames = new List<string>();
+                                        DistrictRepository.GetDistricts().ToList().ForEach(district => districtNames.Add(district.Name));
+                                        var userDistrictInput = AnsiConsole.Prompt(
+                                            new SelectionPrompt<string>()
+                                                .Title("Districts")
+                                                .PageSize(10)
+                                                .HighlightStyle(highlightStyle1)
+                                                .AddChoices(districtNames));
+
                                         if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput) != null)
                                         {
                                             district = DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput);
@@ -281,7 +282,7 @@ QuikTrip Management Systems
                             }
                         }
                         break;
-                    case "5":
+                    case "5. Exit Application":
                         Console.WriteLine("Exiting");
                         menuLoop = false;
                         break;
