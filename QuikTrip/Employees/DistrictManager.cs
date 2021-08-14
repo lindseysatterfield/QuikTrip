@@ -84,8 +84,10 @@ namespace QuikTrip.Employees
                 {
                     districtNames.Add(district.Name);
                 }
+                var highlightStyle = new Style().Foreground(Color.Lime);
                 var districtChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
                    .Title("Choose a district?")
+                   .HighlightStyle(highlightStyle)
                    .AddChoices(districtNames));
 
                 if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == districtChoice) != null)
