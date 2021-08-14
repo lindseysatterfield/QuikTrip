@@ -1,5 +1,6 @@
 ﻿using QuikTrip.Districts;
 using QuikTrip.Repositories;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,20 @@ namespace QuikTrip.Employees
             {
                 Console.Clear();
                 Console.WriteLine("Enter district name");
+
+                var districts = DistrictRepository.GetDistricts().ToList();
+                var districtNames = new List<string>();
+                foreach (var district in districts)
+                {
+                    districtNames.Add(district.Name);
+                }
+                var fruit = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                   .Title("What's your [green]favorite fruit[/]?")
+                   .AddChoices(districtNames));
+
+                // Echo the fruit back to the terminal
+                AnsiConsole.WriteLine($"I agree. {fruit} is tasty!");
+
                 var userInput = Console.ReadLine();
                 if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userInput) != null)
                 {
