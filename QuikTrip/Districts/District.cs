@@ -26,9 +26,6 @@ namespace QuikTrip.Districts
             RetailYearly = 0;
             GasCurrentQuarter = 0;
             GasYearly = 0;
-
-            
-
         }
         public void GetDistrictReport()
         {
