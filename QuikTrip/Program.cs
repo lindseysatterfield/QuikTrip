@@ -104,6 +104,114 @@ QuikTrip Management Systems
                         break;
                     case "4":
                         Console.WriteLine("Add a new store or new district");
+                        var newStoreDistrictLoop = true;
+                        while (newStoreDistrictLoop)
+                        {
+                            newStoreDistrictLoop = false;
+                            Console.WriteLine("Enter 'store' or 'district' to add");
+                            var storeOrDistrict = Console.ReadLine();
+                            switch (storeOrDistrict)
+                            {
+                                case "store":
+                                    var userQuestionLoop = true;
+                                    District district = null;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("What district would you like to add this store to?");
+                                        var userDistrictInput = Console.ReadLine();
+                                        if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput) != null)
+                                        {
+                                            district = DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput);
+                                            userQuestionLoop = false;
+                                        }
+                                       
+                                    }
+
+                                    Console.WriteLine("Please enter store name");
+                                    var userStoreName = Console.ReadLine();
+
+                                    long userStoreRetailQuarter = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter retail sales for current quarter");
+                                        userStoreRetailQuarter = long.Parse(Console.ReadLine());
+
+                                        if (userStoreRetailQuarter.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreRetailYearly = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter retail yearly sales");
+                                        userStoreRetailYearly = long.Parse(Console.ReadLine());
+
+                                        if (userStoreRetailYearly.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreGasQuarter = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter gas sales for current quarter");
+                                        userStoreGasQuarter = long.Parse(Console.ReadLine());
+
+                                        if (userStoreGasQuarter.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    long userStoreGasYearly = 0;
+                                    userQuestionLoop = true;
+                                    while (userQuestionLoop)
+                                    {
+                                        Console.WriteLine("Please enter gas yearly sales");
+                                        userStoreGasYearly = long.Parse(Console.ReadLine());
+
+                                        if (userStoreGasYearly.GetType() == typeof(long))
+                                        {
+                                            userQuestionLoop = false;
+                                        }
+                                    }
+
+                                    StoreRepository.SaveNewStore(new Store(
+                                        userStoreName,
+                                        userStoreRetailQuarter,
+                                        userStoreRetailYearly,
+                                        userStoreGasQuarter,
+                                        userStoreGasYearly
+                                     ));
+
+                                    district.Stores.Add(StoreRepository.GetSingleStore(userStoreName));
+                                    Console.WriteLine("Store added");
+                                    break;
+                                
+                                case "district":
+                                    Console.WriteLine("You selected add district");
+
+                                    Console.WriteLine("Please enter district name");
+                                    var userDistrictName = Console.ReadLine();
+
+                                    Console.WriteLine("Enter district manager name");
+                                    var userDistrictManager = Console.ReadLine();
+
+                                    DistrictRepository.SaveNewDistrict(new District(userDistrictName, userDistrictManager));
+                                    Console.WriteLine("District added");
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Invalid choice");
+                                    break;
+                            }
+                        }
                         break;
                     case "5":
                         Console.WriteLine("Exiting");

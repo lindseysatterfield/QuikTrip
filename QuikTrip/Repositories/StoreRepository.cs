@@ -21,7 +21,8 @@ namespace QuikTrip.Repositories
         public static List<Store> GetStores()
         {
             return _stores;
-        } 
+        }
+
         public static void SaveNewStore(Store Store)
         {
             _stores.Add(Store);
@@ -58,6 +59,11 @@ namespace QuikTrip.Repositories
         {
             int index = _stores.FindIndex(x => x.Name == name);
             return index;
+        }
+
+        public static Store GetSingleStore(string name)
+        {
+            return StoreRepository.GetStores().FirstOrDefault(store => store.Name == name);
         }
     }
 }
