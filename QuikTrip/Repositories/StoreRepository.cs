@@ -20,7 +20,8 @@ namespace QuikTrip.Repositories
         public static List<Store> GetStores()
         {
             return _stores;
-        } 
+        }
+
         public static void SaveNewStore(Store Store)
         {
             _stores.Add(Store);
@@ -47,7 +48,6 @@ namespace QuikTrip.Repositories
                 Console.WriteLine($"Retail Yearly: ${String.Format("{0:#,##0.##}", store.RetailYearly)}");
                 Console.WriteLine($"Retail Current Quarter: ${String.Format("{0:#,##0.##}", store.RetailCurrentQuarter)}");
             }
-            
         }
 
         // Find index of the store from the _stores
@@ -55,6 +55,11 @@ namespace QuikTrip.Repositories
         {
             int index = _stores.FindIndex(x => x.Name == name);
             return index;
+        }
+
+        public static Store GetSingleStore(string name)
+        {
+            return StoreRepository.GetStores().FirstOrDefault(store => store.Name == name);
         }
     }
 }
