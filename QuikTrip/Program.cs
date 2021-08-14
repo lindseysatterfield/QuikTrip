@@ -59,10 +59,11 @@ QuikTrip Management Systems
                         var storeReportLoop = true;
                         while (storeReportLoop)
                         {
+                            List<Store> stores = StoreRepository.GetStores().ToList();
                             AnsiConsole.MarkupLine("[greenyellow]Please enter store name[/]");
                             Console.WriteLine();
                             Console.WriteLine("---Available Stores---");
-                            foreach (var store in mockStores)
+                            foreach (var store in stores)
                             {
                                 AnsiConsole.MarkupLine($"[blue]{store.Name}[/]");
                                 Console.ForegroundColor = ConsoleColor.White;
