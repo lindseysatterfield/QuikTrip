@@ -85,7 +85,7 @@ namespace QuikTrip
                             }
                         }
                         break;
-                    case "3":
+                    case "3. Add New Employee":
                         Console.WriteLine("Add New Employee");
                         var newEmployeeLoop = true;
                         while (newEmployeeLoop)
@@ -155,13 +155,17 @@ namespace QuikTrip
                         }
                         break;
                     case "4. Add A New Store or District":
-                        Console.WriteLine("Add a new store or new district");
                         var newStoreDistrictLoop = true;
                         while (newStoreDistrictLoop)
                         {
                             newStoreDistrictLoop = false;
-                            Console.WriteLine("Enter 'store' or 'district' to add");
-                            var storeOrDistrict = Console.ReadLine();
+                            var storeOrDistrict = AnsiConsole.Prompt(
+                              new SelectionPrompt<string>()
+                                  .Title("Choose what to add.")
+                                  .PageSize(10)
+                                  .AddChoices(new[] {
+                                     "store","district"
+                                  }));
                             switch (storeOrDistrict)
                             {
                                 case "store":
@@ -169,8 +173,14 @@ namespace QuikTrip
                                     District district = null;
                                     while (userQuestionLoop)
                                     {
-                                        Console.WriteLine("What district would you like to add this store to?");
-                                        var userDistrictInput = Console.ReadLine();
+                                        var districtNames = new List<string>();
+                                        DistrictRepository.GetDistricts().ToList().ForEach(district => districtNames.Add(district.Name));
+                                        var userDistrictInput = AnsiConsole.Prompt(
+                                            new SelectionPrompt<string>()
+                                                .Title("Districts")
+                                                .PageSize(10)
+                                                .AddChoices(districtNames));
+
                                         if (DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput) != null)
                                         {
                                             district = DistrictRepository.GetDistricts().FirstOrDefault(district => district.Name == userDistrictInput);
