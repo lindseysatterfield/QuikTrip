@@ -76,7 +76,7 @@ QuikTrip Management Systems
                                 Console.WriteLine();
                                 // Display store employees
                                 var index = StoreRepository.FindIndex(storeName);
-                                var employees = mockStores[index].GetEmployees();
+                                var employees = stores[index].GetEmployees();
                                 Console.WriteLine($"----Your favorite QuikTrip Store----");
                                 AnsiConsole.MarkupLine($"[deeppink4_2]--List of {storeName}'s Awesome Employees--[/]");
                                 var i = 1;
