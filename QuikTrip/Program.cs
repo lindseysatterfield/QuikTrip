@@ -27,23 +27,19 @@ namespace QuikTrip
 
             while (menuLoop)
             {
-                //Console.Clear();
-                Console.WriteLine(@"
-QuikTrip Management Systems
-
-1. Get District Report
-2. Get Store Report
-3. Add New Employee
-4. Add a New Store/District
-5. Exit
-");
-                var userChoice = Console.ReadLine();
+                var userChoice = AnsiConsole.Prompt(
+    new SelectionPrompt<string>()
+        .Title("[green]QuikTrip[/] Management Systems")
+        .PageSize(10)
+        .AddChoices(new[] {
+            "1. Get District Report", "2. Get Store Report", "3. Add New Employee", "4. Add A New Store or District", "5. Exit Application"
+        }));
                 switch (userChoice)
                 {
-                    case "1":
+                    case "1. Get District Report":
                         DistrictManager.RequestDistrictReport();
                         break;
-                    case "2":
+                    case "2. Get Store Report":
                         Console.Clear();
                         var storeReportLoop = true;
                         while (storeReportLoop)
@@ -98,10 +94,10 @@ QuikTrip Management Systems
                             }       
                         }
                         break;
-                    case "3":
+                    case "3. Add New Employee":
                         Console.WriteLine("Add New Employee");
                         break;
-                    case "4":
+                    case "4. Add A New Store or District":
                         Console.WriteLine("Add a new store or new district");
                         var newStoreDistrictLoop = true;
                         while (newStoreDistrictLoop)
@@ -212,7 +208,7 @@ QuikTrip Management Systems
                             }
                         }
                         break;
-                    case "5":
+                    case "5. Exit Application":
                         Console.WriteLine("Exiting");
                         menuLoop = false;
                         break;
